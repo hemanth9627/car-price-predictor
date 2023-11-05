@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head xmlns="http://www.w3.org/1999/xhtml">
+    <meta charset="UTF-8">
+    <title>Car Price Predictor</title>
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/foot.css">
+    <link rel="stylesheet" type="text/css"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.css">
+        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+
+</head>
+<style>
+    .box { 
+            margin-left :300px;
+            margin-right: 500px;
+            margin-top: 75px;
+            width: 600px; 
+            height: 600px;  
+            padding: 2rem; 
+            box-sizing: border-box; 
+            border: 2px solid gray; 
+            align-items: center;
+
+        } 
+        :root {
+    --accent-color: #a876aa;
+    --main-transition: all 0.3s ease-in-out;
+  }
+ .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: "Montserrat", sans-serif;
+    color: #222;
+    /* padding-bottom: 50px; */
+  }
+  .nav {
+    position: fixed;
+    background-color: transparent;
+    top: 0;
+    left: 0;
+    right: 0;
+    transition: var(--main-transition);
+    text-transform: uppercase;
+    z-index: 2;
+  }
+  .nav .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30px 0;
+    transition: var(--main-transition);
+  }
+  .nav ul {
+    display: flex;
+    list-style-type: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .nav a {
+    position: relative;
+    color: #fff;
+    text-decoration: none;
+    padding: 7px 15px;
+    font-weight: 300;
+    transition: var(--main-transition);
+  }
+
+  .nav * {
+    font-size: 16px;
+    letter-spacing: 0.1rem;
+  }
+  .nav a.current,
+  .nav a:hover,button {
+    color: var(--accent-color);
+  }
+
+  .nav a.current {
+    font-weight: 600;
+  }
+
+  .nav a.current::before {
+    content: "";
+    width: 50%;
+    height: 2px;
+    background-color: var(--accent-color);
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: var(--main-transition);
+  }
+
+  .nav.active {
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  .nav.active a {
+    color: #000;
+  }
+  .nav.active a.current::before {
+    opacity: 0;
+  }
+
+  .nav.active .container {
+    padding: 20px 0;
+  }
+
+  i {
+    margin: 0 10px;
+  }
+
+  .hero {
+    background-image: url("https://media.licdn.com/dms/image/D4E12AQHcnePeXhLdBw/article-cover_image-shrink_720_1280/0/1680187651527?e=2147483647&v=beta&t=Jp10J-dQMmypAwk3EvloMVOGHqaAyHBlDUI492cJjnE");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    height: 100vh;
+    color: #fff;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    margin-bottom: 00px;
+     /* z-index: 0;  */
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: hue-rotate(290deg) saturate(50%) contrast(90%);
+    z-index: -1;
+  }
+  @media (max-width: 700px) {
+    .hero h1 {
+      font-size: 30px;
+    }
+
+    .nav .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+
+  }
+
+</style>
+
+<body>
+    <body >
+        <nav class="nav">
+          <div class="container">
+            <h1 class="logo"><a href="#"> Car Price Predictor</a></h1>
+            <ul>
+              <li><a href="#" class="current">Home</a></li>
+              <li><a href="#content1">About</a></li>
+      
+              <li><a href="#content2">ContactUs</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="hero">
+            <div class="container">
+              <!-- <h1>Automotive Valuation</h1>
+              <a href="file:///C:/Users/niche/Downloads/CarPricePredictor-master/CarPricePredictor-master/templates/index.html#">clickemeeeeee</a>
+             <a href="index.html"><button style=>click me</button></a> -->
+              <!-- <button href="/index" type="submit" class="btn btn-outline-light">Predict now</button> -->
+              <div class="box">
+                <form method="post" accept-charset="utf-8" name="Modelform">
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select the company:</b> </label><br>
+                        <select class="selectpicker form-control" id="company" name="company" required="1"
+                            onchange="load_car_models(this.id,'car_models')">
+                            {% for company in companies %}
+                            <option value="{{ company }}">{{ company }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select the model:</b> </label><br>
+                        <select class="selectpicker form-control" id="car_models" name="car_models" required="1">
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select Year of Purchase:</b> </label><br>
+                        <select class="selectpicker form-control" id="year" name="year" required="1">
+                            {% for year in years %}
+                            <option value="{{ year }}">{{ year }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Select the Fuel Type:</b> </label><br>
+                        <select class="selectpicker form-control" id="fuel_type" name="fuel_type" required="1">
+                            {% for fuel in fuel_types %}
+                            <option value="{{ fuel }}">{{ fuel }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <label><b>Enter the Number of Kilometres that the car has travelled:</b> </label><br>
+                        <input type="text" class="form-control" id="kilo_driven" name="kilo_driven"
+                            placeholder="Enter the kilometres driven ">
+                    </div>
+                    <div class="col-md-10 form-group" style="text-align: center">
+                        <button class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+                    </div>
+                </form>
+                <br>
+                <div class="row">
+                    <div class="col-12" style="text-align: center">
+                        <h4><span id="prediction"></span></h4>
+                    </div>
+                </div>
+                </div>
+            
+            
+        
+              </div>
+          </div>
+
+
+          <section id="footer">
+      
+            <div class="footer-basic">
+                <footer>
+                    <div class="social" style="color: white;"><a href="#"><i class="icon ion-social-instagram"></i></a><a href="#"><i class="icon ion-social-snapchat"></i></a><a href="#"><i class="icon ion-social-twitter"></i></a><a href="#"><i class="icon ion-social-facebook"></i></a></div>
+                
+                    <p class="copyright">CST_A10 © 2023</p>
+                </footer>
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.bundle.min.js"></script>
+        </section>
+    <!-- <div class="box">
+    <form method="post" accept-charset="utf-8" name="Modelform">
+        <div class="col-md-10 form-group" style="text-align: center">
+            <label><b>Select the company:</b> </label><br>
+            <select class="selectpicker form-control" id="company" name="company" required="1"
+                onchange="load_car_models(this.id,'car_models')">
+                {% for company in companies %}
+                <option value="{{ company }}">{{ company }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-10 form-group" style="text-align: center">
+            <label><b>Select the model:</b> </label><br>
+            <select class="selectpicker form-control" id="car_models" name="car_models" required="1">
+            </select>
+        </div>
+        <div class="col-md-10 form-group" style="text-align: center">
+            <label><b>Select Year of Purchase:</b> </label><br>
+            <select class="selectpicker form-control" id="year" name="year" required="1">
+                {% for year in years %}
+                <option value="{{ year }}">{{ year }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-10 form-group" style="text-align: center">
+            <label><b>Select the Fuel Type:</b> </label><br>
+            <select class="selectpicker form-control" id="fuel_type" name="fuel_type" required="1">
+                {% for fuel in fuel_types %}
+                <option value="{{ fuel }}">{{ fuel }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-10 form-group" style="text-align: center">
+            <label><b>Enter the Number of Kilometres that the car has travelled:</b> </label><br>
+            <input type="text" class="form-control" id="kilo_driven" name="kilo_driven"
+                placeholder="Enter the kilometres driven ">
+        </div>
+        <div class="col-md-10 form-group" style="text-align: center">
+            <button class="btn btn-primary form-control" onclick="send_data()">Predict Price</button>
+        </div>
+    </form>
+    <br>
+    <div class="row">
+        <div class="col-12" style="text-align: center">
+            <h4><span id="prediction"></span></h4>
+        </div>
+    </div>
+    </div> -->
+
+
+
+
+    <script>
+
+        function load_car_models(company_id, car_model_id) {
+            var company = document.getElementById(company_id);
+            var car_model = document.getElementById(car_model_id);
+            console.log(company.value);
+            car_model.value = "";
+            car_model.innerHTML = "";
+            {% for company in companies %}
+            if (company.value == "{{ company }}") {
+                {% for model in car_models %}
+                {% if company in model %}
+
+                var newOption = document.createElement("option");
+                newOption.value = "{{ model }}";
+                newOption.innerHTML = "{{ model }}";
+                car_model.options.add(newOption);
+                {% endif %}
+                {% endfor %}
+            }
+            {% endfor %}
+        }
+
+        function form_handler(event) {
+            event.preventDefault(); // Don't submit the form normally
+        }
+        function send_data() {
+            document.querySelector('form').addEventListener("submit", form_handler);
+
+            var fd = new FormData(document.querySelector('form'));
+
+            var xhr = new XMLHttpRequest({ mozSystem: true });
+
+            xhr.open('POST', '/predict', true);
+            document.getElementById('prediction').innerHTML = "Wait! Predicting Price.....";
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == XMLHttpRequest.DONE) {
+                    document.getElementById('prediction').innerHTML = "Prediction: ₹" + xhr.responseText;
+
+                }
+            };
+
+            xhr.onload = function () { };
+
+            xhr.send(fd);
+        }
+    </script>
+
+
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+
+</body>
+
+</html>

@@ -27,3 +27,9 @@ To run this project locally, follow these steps:
 
    ```bash
    git clone https://github.com/yourusername/car-price-predictor.git
+2. Install the required dependencies:
+   ```bash
+   pip install -r requirements.txt
+3. Start the application:
+   ```bash
+   python3 application.py

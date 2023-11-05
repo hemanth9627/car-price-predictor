@@ -9,12 +9,12 @@ cors = CORS(app)
 model = pickle.load(open('LinearRegressionModel.pkl', 'rb'))
 car = pd.read_csv('Cleaned_Car_data.csv')
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def home():
     return render_template('car.html')
 
 
-@app.route('/index.html', methods=['GET', 'POST'])
+@app.route('/index', methods=['GET', 'POST'])
 def index():
     companies = sorted(car['company'].unique())
     car_models = sorted(car['name'].unique())

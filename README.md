@@ -10,14 +10,14 @@ The **Car Price Predictor** is a machine learning project based on linear regres
 
 ### Home Page
 
-- ![Home Page 1](/output/home1.png)
-- ![Home Page 2](/output/home2.png)
-- ![Home Page 3](/output/home3.png)
+- ![Home Page 1](/Output/home1.png)
+- ![Home Page 2](/Output/home2.png)
+- ![Home Page 3](/Output/home3.png)
 
 ### Output Page
 
-- ![Output 1](/output/output1.png)
-- ![Output 2](/output/output2.png)
+- ![Output 1](/Output/output1.png)
+- ![Output 2](/Output/output2.png)
 
 ## Installation
 

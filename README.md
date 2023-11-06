@@ -4,7 +4,7 @@
 
 ## Description
 
-The **Car Price Predictor** is a machine learning project based on linear regression. It enables users to predict the price of a car based on several factors including car brand, car model, car fuel type, year of purchase, and number of kilometers driven.
+The **Car Price Predictor** is a machine learning project based on linear regression. It enables users to predict the price of a car based on several factors including car brand, car model, car fuel type, year of purchase and number of kilometers driven.
 
 ## Screenshots
 
